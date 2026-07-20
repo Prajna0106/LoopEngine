@@ -1,6 +1,11 @@
 """LoopEngine CLI entrypoint."""
 
-from loopengine.adapters.inbound.cli.app import main
+from __future__ import annotations
+
+
+def main() -> None:
+    """CLI entry point — to be implemented."""
+
 
 if __name__ == "__main__":
     main()
