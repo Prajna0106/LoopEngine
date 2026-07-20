@@ -1,0 +1,1 @@
+"""Context assembler - builds agent prompts from workflow state."""

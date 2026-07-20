@@ -1,0 +1,1 @@
+"""Agent configuration value object."""

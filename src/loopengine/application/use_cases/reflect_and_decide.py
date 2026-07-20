@@ -1,0 +1,1 @@
+"""Use case - analyze results and decide next action."""

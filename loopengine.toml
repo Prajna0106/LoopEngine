@@ -1,0 +1,24 @@
+[engine]
+max_iterations = 5
+default_agent = "claude"
+
+[agent.claude]
+model = "claude-sonnet-4-20250514"
+api_key_env = "ANTHROPIC_API_KEY"
+
+[agent.openai]
+model = "gpt-4o"
+api_key_env = "OPENAI_API_KEY"
+
+[validation]
+linters = ["ruff"]
+type_checkers = ["mypy"]
+test_runner = "pytest"
+
+[persistence]
+backend = "json"
+directory = ".loopengine"
+
+[logging]
+level = "INFO"
+format = "json"

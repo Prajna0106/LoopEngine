@@ -1,0 +1,1 @@
+"""Workflow identity value object."""

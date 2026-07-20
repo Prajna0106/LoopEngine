@@ -1,0 +1,1 @@
+"""Outbound port - event bus interface."""

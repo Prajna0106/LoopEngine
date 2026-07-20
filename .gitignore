@@ -1,0 +1,54 @@
+# ── Python ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+*.whl
+pip-wheel-metadata/
+
+# ── Virtual environments ───────────────────────────────────────────────
+.venv/
+venv/
+ENV/
+env/
+
+# ── uv ─────────────────────────────────────────────────────────────────
+.python-version
+
+# ── IDE ────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Testing / Coverage ─────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# ── mypy ───────────────────────────────────────────────────────────────
+.mypy_cache/
+
+# ── ruff ───────────────────────────────────────────────────────────────
+.ruff_cache/
+
+# ── Build artifacts ────────────────────────────────────────────────────
+*.tar.gz
+*.whl
+
+# ── LoopEngine runtime ─────────────────────────────────────────────────
+.loopengine/
+*.loopengine.toml
+
+prompts.md

@@ -1,0 +1,1 @@
+"""Agent interaction domain events."""

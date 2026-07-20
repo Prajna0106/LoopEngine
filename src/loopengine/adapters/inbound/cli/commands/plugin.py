@@ -1,0 +1,1 @@
+"""CLI command - manage plugins."""

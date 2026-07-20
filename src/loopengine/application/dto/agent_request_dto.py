@@ -1,0 +1,1 @@
+"""Agent request data transfer object."""

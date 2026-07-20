@@ -1,0 +1,1 @@
+"""Built-in coverage analysis plugin."""

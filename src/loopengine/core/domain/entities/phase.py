@@ -1,0 +1,1 @@
+"""Phase entity - a stage within a workflow."""

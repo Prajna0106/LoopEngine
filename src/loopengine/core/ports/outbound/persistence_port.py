@@ -1,0 +1,1 @@
+"""Outbound port - persistence interface."""

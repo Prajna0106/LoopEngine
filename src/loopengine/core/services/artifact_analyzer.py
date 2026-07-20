@@ -1,0 +1,1 @@
+"""Artifact analyzer - extracts signals from artifacts."""

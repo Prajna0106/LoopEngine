@@ -1,0 +1,1 @@
+"""Workflow data transfer object."""

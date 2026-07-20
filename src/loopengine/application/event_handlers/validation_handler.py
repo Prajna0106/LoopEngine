@@ -1,0 +1,1 @@
+"""Event handler - validation event reactions."""

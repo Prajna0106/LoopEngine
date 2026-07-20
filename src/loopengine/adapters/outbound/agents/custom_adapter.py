@@ -1,0 +1,1 @@
+"""User-configurable agent adapter."""

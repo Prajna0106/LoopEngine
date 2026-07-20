@@ -1,0 +1,1 @@
+"""Status report data transfer object."""
