@@ -1,4 +1,4 @@
-"""CLI command — loop run."""
+"""CLI command — loop plan."""
 
 from __future__ import annotations
 
@@ -12,15 +12,14 @@ if TYPE_CHECKING:
     from loopengine.core.ports.inbound.orchestrator_port import OrchestratorPort
 
 
-def run_command(
+def plan_command(
     config: Annotated[str | None, typer.Option("--config", "-c", help="Config file path")] = None,
-    dry_run: Annotated[bool, typer.Option("--dry-run", help="Plan only, do not execute")] = False,
     *,
     orchestrator: OrchestratorPort,
     json_output: bool = False,
 ) -> None:
-    """Execute a workflow."""
-    result = orchestrator.run(config, dry_run=dry_run)
+    """Plan a workflow without executing it."""
+    result = orchestrator.plan(config)
 
     if json_output:
         from loopengine.adapters.inbound.cli.formatters import json_formatter
@@ -28,17 +27,12 @@ def run_command(
         json_formatter.emit(
             {
                 "workflow_id": result.workflow_id,
-                "status": result.status,
-                "iterations": result.iterations,
+                "phases": result.phases,
                 "summary": result.summary,
             }
         )
     else:
-        fmt.workflow_summary(
-            {
-                "workflow_id": result.workflow_id,
-                "status": result.status,
-                "iterations": result.iterations,
-                "summary": result.summary,
-            }
-        )
+        fmt.heading("Workflow Plan")
+        fmt.info(f"ID:     {result.workflow_id}")
+        fmt.info(f"Phases: {', '.join(result.phases)}")
+        fmt.panel("Summary", result.summary)

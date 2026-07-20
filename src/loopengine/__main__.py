@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-
-def main() -> None:
-    """CLI entry point — to be implemented."""
-
+from loopengine.adapters.inbound.cli.app import bootstrap
 
 if __name__ == "__main__":
-    main()
+    bootstrap()
