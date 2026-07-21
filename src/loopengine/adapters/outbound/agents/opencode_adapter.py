@@ -1,6 +1,6 @@
-"""Claude agent adapter — wraps the ``claude`` CLI.
+"""OpenCode agent adapter — wraps the ``opencode`` CLI.
 
-Invokes ``claude -p <prompt>`` in non-interactive (print) mode.
+Invokes ``opencode run --non-interactive <prompt>``.
 """
 
 from __future__ import annotations
@@ -14,26 +14,26 @@ from loopengine.adapters.outbound.agents.base_agent_adapter import (
 from loopengine.core.ports.outbound.agent_port import AgentResponse
 
 
-class ClaudeAdapter(BaseAgentAdapter):
-    """Adapter for the Anthropic Claude CLI (``claude``).
+class OpenCodeAdapter(BaseAgentAdapter):
+    """Adapter for the OpenCode CLI (``opencode``).
 
     Usage::
 
-        agent = ClaudeAdapter()
+        agent = OpenCodeAdapter()
         if agent.is_available():
-            resp = agent.invoke("Write a hello-world function")
+            resp = agent.invoke("Add type hints to this module")
     """
 
-    _NAME = "claude"
+    _NAME = "opencode"
 
     def __init__(
         self,
         *,
-        model: str = "claude-sonnet-4-20250514",
+        model: str = "",
         config: ProcessConfig | None = None,
     ) -> None:
         super().__init__(config=config)
-        self._model = model
+        self._model = model or "default"
 
     @property
     def name(self) -> str:
@@ -45,7 +45,7 @@ class ClaudeAdapter(BaseAgentAdapter):
 
     @property
     def command(self) -> list[str]:
-        return ["claude", "-p"]
+        return ["opencode", "run", "--non-interactive"]
 
     def build_args(
         self,
@@ -54,7 +54,8 @@ class ClaudeAdapter(BaseAgentAdapter):
         context: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> list[str]:
         args = [*self.command]
-        args.extend(["--model", self._model])
+        if self._model and self._model != "default":
+            args.extend(["--model", self._model])
         args.append(prompt)
         return args
 

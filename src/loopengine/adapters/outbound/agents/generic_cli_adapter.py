@@ -1,6 +1,7 @@
-"""Claude agent adapter — wraps the ``claude`` CLI.
+"""Generic CLI agent adapter — wraps any arbitrary CLI tool.
 
-Invokes ``claude -p <prompt>`` in non-interactive (print) mode.
+Invokes ``<command> <args...> <prompt>`` and captures stdout.
+Use this for custom or experimental agent CLIs.
 """
 
 from __future__ import annotations
@@ -14,30 +15,35 @@ from loopengine.adapters.outbound.agents.base_agent_adapter import (
 from loopengine.core.ports.outbound.agent_port import AgentResponse
 
 
-class ClaudeAdapter(BaseAgentAdapter):
-    """Adapter for the Anthropic Claude CLI (``claude``).
+class GenericCLIAdapter(BaseAgentAdapter):
+    """Adapter for arbitrary CLI-based agents.
 
     Usage::
 
-        agent = ClaudeAdapter()
-        if agent.is_available():
-            resp = agent.invoke("Write a hello-world function")
+        agent = GenericCLIAdapter(
+            name="my-agent",
+            command=["my-agent-cli", "--quiet"],
+            model="custom-v1",
+        )
+        resp = agent.invoke("Do something")
     """
-
-    _NAME = "claude"
 
     def __init__(
         self,
         *,
-        model: str = "claude-sonnet-4-20250514",
+        name: str = "generic",
+        command: list[str] | None = None,
+        model: str = "unknown",
         config: ProcessConfig | None = None,
     ) -> None:
         super().__init__(config=config)
+        self._name = name
+        self._command = command or [name]
         self._model = model
 
     @property
     def name(self) -> str:
-        return self._NAME
+        return self._name
 
     @property
     def model(self) -> str:
@@ -45,7 +51,7 @@ class ClaudeAdapter(BaseAgentAdapter):
 
     @property
     def command(self) -> list[str]:
-        return ["claude", "-p"]
+        return self._command
 
     def build_args(
         self,
@@ -53,14 +59,11 @@ class ClaudeAdapter(BaseAgentAdapter):
         *,
         context: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> list[str]:
-        args = [*self.command]
-        args.extend(["--model", self._model])
-        args.append(prompt)
-        return args
+        return [*self._command, prompt]
 
     def parse_response(self, stdout: str, stderr: str) -> AgentResponse:
         return AgentResponse(
             content=stdout.strip(),
             model=self._model,
-            metadata={"agent": self._NAME, "stderr": stderr.strip()},
+            metadata={"agent": self._name, "stderr": stderr.strip()},
         )

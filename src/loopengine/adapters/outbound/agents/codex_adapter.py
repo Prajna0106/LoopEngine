@@ -1,6 +1,6 @@
-"""Claude agent adapter — wraps the ``claude`` CLI.
+"""Codex agent adapter — wraps the ``codex`` CLI.
 
-Invokes ``claude -p <prompt>`` in non-interactive (print) mode.
+Invokes ``codex --quiet <prompt>`` in non-interactive mode.
 """
 
 from __future__ import annotations
@@ -14,22 +14,22 @@ from loopengine.adapters.outbound.agents.base_agent_adapter import (
 from loopengine.core.ports.outbound.agent_port import AgentResponse
 
 
-class ClaudeAdapter(BaseAgentAdapter):
-    """Adapter for the Anthropic Claude CLI (``claude``).
+class CodexAdapter(BaseAgentAdapter):
+    """Adapter for the OpenAI Codex CLI (``codex``).
 
     Usage::
 
-        agent = ClaudeAdapter()
+        agent = CodexAdapter()
         if agent.is_available():
-            resp = agent.invoke("Write a hello-world function")
+            resp = agent.invoke("Refactor this function")
     """
 
-    _NAME = "claude"
+    _NAME = "codex"
 
     def __init__(
         self,
         *,
-        model: str = "claude-sonnet-4-20250514",
+        model: str = "o4-mini",
         config: ProcessConfig | None = None,
     ) -> None:
         super().__init__(config=config)
@@ -45,7 +45,7 @@ class ClaudeAdapter(BaseAgentAdapter):
 
     @property
     def command(self) -> list[str]:
-        return ["claude", "-p"]
+        return ["codex", "--quiet"]
 
     def build_args(
         self,
