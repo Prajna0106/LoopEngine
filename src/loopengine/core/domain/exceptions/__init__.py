@@ -20,6 +20,10 @@ from loopengine.core.domain.exceptions.plugin_exceptions import (
     HookNotFoundError,
     PluginLoadError,
 )
+from loopengine.core.domain.exceptions.reflection_exceptions import (
+    MaxIterationsExceededError,
+    ReflectionError,
+)
 from loopengine.core.domain.exceptions.workflow_exceptions import (
     InvalidTransitionError,
     MaxIterationsReachedError,
@@ -35,12 +39,14 @@ __all__ = [
     "HookNotFoundError",
     "InvalidTransitionError",
     "LoopEngineError",
+    "MaxIterationsExceededError",
     "MaxIterationsReachedError",
     "PlanCyclicDependencyError",
     "PlanError",
     "PlanNotProvidedError",
     "PlanValidationError",
     "PluginLoadError",
+    "ReflectionError",
     "TaskFailedError",
     "WorkflowError",
     "WorkflowNotFoundError",
