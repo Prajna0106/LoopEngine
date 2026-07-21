@@ -18,6 +18,19 @@ from loopengine.core.ports.outbound.planner_port import (
     StepComplexity,
     StepPriority,
 )
+from loopengine.core.ports.outbound.plugin_registry_port import (
+    BasePlugin,
+    PluginInfo,
+    PluginMetadata,
+    PluginRegistry,
+    PluginState,
+)
+from loopengine.core.ports.outbound.prompt_port import (
+    PromptProvider,
+    PromptRegistry,
+    PromptTemplate,
+    PromptVersion,
+)
 from loopengine.core.ports.outbound.reflection_port import (
     ReflectionDecision,
     ReflectionEngine,
@@ -39,6 +52,7 @@ from loopengine.core.ports.outbound.validator_port import (
 __all__ = [
     "AgentResponse",
     "BaseAgent",
+    "BasePlugin",
     "ExecutionResult",
     "Executor",
     "Logger",
@@ -48,6 +62,14 @@ __all__ = [
     "PlanResult",
     "PlanStep",
     "Planner",
+    "PluginInfo",
+    "PluginMetadata",
+    "PluginRegistry",
+    "PluginState",
+    "PromptProvider",
+    "PromptRegistry",
+    "PromptTemplate",
+    "PromptVersion",
     "ReflectionDecision",
     "ReflectionEngine",
     "ReflectionResult",

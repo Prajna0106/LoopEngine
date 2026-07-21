@@ -18,7 +18,14 @@ from loopengine.core.domain.exceptions.planner_exceptions import (
 )
 from loopengine.core.domain.exceptions.plugin_exceptions import (
     HookNotFoundError,
+    PluginDependencyError,
     PluginLoadError,
+    PluginNotFoundError,
+)
+from loopengine.core.domain.exceptions.prompt_exceptions import (
+    PromptLoadError,
+    PromptNotFoundError,
+    PromptValidationError,
 )
 from loopengine.core.domain.exceptions.reflection_exceptions import (
     MaxIterationsExceededError,
@@ -45,7 +52,12 @@ __all__ = [
     "PlanError",
     "PlanNotProvidedError",
     "PlanValidationError",
+    "PluginDependencyError",
     "PluginLoadError",
+    "PluginNotFoundError",
+    "PromptLoadError",
+    "PromptNotFoundError",
+    "PromptValidationError",
     "ReflectionError",
     "TaskFailedError",
     "WorkflowError",

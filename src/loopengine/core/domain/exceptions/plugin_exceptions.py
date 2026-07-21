@@ -25,6 +25,27 @@ class PluginLoadError(PluginError):
         self.reason = reason
 
 
+class PluginNotFoundError(PluginError):
+    """Requested plugin is not registered."""
+
+    def __init__(self, plugin: str) -> None:
+        super().__init__(f"Plugin not found: {plugin!r}", plugin=plugin)
+        self.code = "PLUGIN_NOT_FOUND"
+
+
+class PluginDependencyError(PluginError):
+    """A required plugin dependency is not satisfied."""
+
+    def __init__(self, plugin: str, missing: list[str]) -> None:
+        deps = ", ".join(missing)
+        super().__init__(
+            f"Plugin {plugin!r} has unmet dependencies: {deps}",
+            plugin=plugin,
+        )
+        self.code = "PLUGIN_DEPENDENCY_ERROR"
+        self.missing = missing
+
+
 class HookNotFoundError(PluginError):
     """Requested hook does not exist."""
 
