@@ -5,6 +5,12 @@ from loopengine.core.domain.exceptions.agent_exceptions import (
     AgentTimeoutError,
 )
 from loopengine.core.domain.exceptions.base import LoopEngineError
+from loopengine.core.domain.exceptions.execution_exceptions import (
+    DependencyNotMetError,
+    ExecutionError,
+    PlanNotProvidedError,
+    TaskFailedError,
+)
 from loopengine.core.domain.exceptions.planner_exceptions import (
     PlanCyclicDependencyError,
     PlanError,
@@ -24,14 +30,18 @@ from loopengine.core.domain.exceptions.workflow_exceptions import (
 __all__ = [
     "AgentRefusedError",
     "AgentTimeoutError",
+    "DependencyNotMetError",
+    "ExecutionError",
     "HookNotFoundError",
     "InvalidTransitionError",
     "LoopEngineError",
     "MaxIterationsReachedError",
     "PlanCyclicDependencyError",
     "PlanError",
+    "PlanNotProvidedError",
     "PlanValidationError",
     "PluginLoadError",
+    "TaskFailedError",
     "WorkflowError",
     "WorkflowNotFoundError",
 ]
