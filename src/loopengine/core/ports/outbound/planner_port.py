@@ -8,16 +8,40 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from enum import StrEnum
 from typing import Any
+
+
+class StepPriority(StrEnum):
+    """Priority level for a plan step."""
+
+    CRITICAL = "critical"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+
+class StepComplexity(StrEnum):
+    """Estimated complexity for a plan step."""
+
+    TRIVIAL = "trivial"
+    SIMPLE = "simple"
+    MODERATE = "moderate"
+    COMPLEX = "complex"
+    VERY_COMPLEX = "very_complex"
 
 
 @dataclass(frozen=True)
 class PlanStep:
     """A single step inside a plan phase."""
 
+    id: str
     description: str
-    expected_output: str = ""
+    priority: StepPriority = StepPriority.MEDIUM
     dependencies: list[str] = field(default_factory=list)
+    complexity: StepComplexity = StepComplexity.MODERATE
+    expected_output: str = ""
+    acceptance_criteria: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -26,6 +50,7 @@ class PlanPhase:
 
     name: str
     steps: list[PlanStep] = field(default_factory=list)
+    description: str = ""
 
 
 @dataclass(frozen=True)

@@ -10,7 +10,14 @@ from loopengine.core.ports.outbound.executor_port import ExecutionResult, Execut
 from loopengine.core.ports.outbound.logger_port import Logger
 from loopengine.core.ports.outbound.memory_store_port import MemoryStore
 from loopengine.core.ports.outbound.metrics_port import MetricsCollector
-from loopengine.core.ports.outbound.planner_port import Planner, PlanPhase, PlanResult, PlanStep
+from loopengine.core.ports.outbound.planner_port import (
+    Planner,
+    PlanPhase,
+    PlanResult,
+    PlanStep,
+    StepComplexity,
+    StepPriority,
+)
 from loopengine.core.ports.outbound.reflection_port import (
     ReflectionDecision,
     ReflectionEngine,
@@ -49,6 +56,8 @@ __all__ = [
     "ReviewVerdict",
     "Reviewer",
     "Severity",
+    "StepComplexity",
+    "StepPriority",
     "ValidationIssue",
     "ValidationResult",
     "Validator",
