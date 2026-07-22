@@ -28,7 +28,7 @@ class ClaudeAdapter(BaseAgentAdapter):
     def __init__(
         self,
         *,
-        model: str = "claude-sonnet-4-20260514",
+        model: str = "claude-sonnet-5-20260514",
         config: ProcessConfig | None = None,
     ) -> None:
         super().__init__(model=model, config=config)

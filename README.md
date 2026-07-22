@@ -96,7 +96,7 @@ engine:
 
 agents:
   claude:
-    model: claude-sonnet-4-20260514
+    model: claude-sonnet-5-20260514
     api_key_env: ANTHROPIC_API_KEY
 
 validation:

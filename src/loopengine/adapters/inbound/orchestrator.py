@@ -81,7 +81,7 @@ class Orchestrator(OrchestratorPort):
                 "  default_agent: claude\n\n"
                 "agents:\n"
                 "  claude:\n"
-                "    model: claude-sonnet-4-20260514\n"
+                "    model: claude-sonnet-5-20260514\n"
                 "    api_key_env: ANTHROPIC_API_KEY\n\n"
                 "validation:\n"
                 "  linters: [ruff]\n"

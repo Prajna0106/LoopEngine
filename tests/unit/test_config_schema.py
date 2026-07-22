@@ -18,7 +18,7 @@ from loopengine.infrastructure.config.schema import (
 class TestAgentConfig:
     def test_defaults(self) -> None:
         cfg = AgentConfig()
-        assert cfg.model == "claude-sonnet-4-20260514"
+        assert cfg.model == "claude-sonnet-5-20260514"
         assert cfg.api_key_env == "ANTHROPIC_API_KEY"
         assert cfg.timeout == 120.0
 
@@ -106,7 +106,7 @@ class TestLoopEngineConfig:
     def test_get_agent_default(self) -> None:
         cfg = default_config()
         agent = cfg.get_agent()
-        assert agent.model == "claude-sonnet-4-20260514"
+        assert agent.model == "claude-sonnet-5-20260514"
 
     def test_get_agent_by_name(self) -> None:
         cfg = default_config()

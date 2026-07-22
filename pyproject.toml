@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "loopeng"
-version = "0.1.2"
+version = "0.1.3"
 description = "Engineering orchestration framework for AI coding agents"
 readme = "README.md"
 license = "MIT"
