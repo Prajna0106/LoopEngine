@@ -49,7 +49,7 @@ class AgentConfig(BaseModel):
         description="Env var name holding the API key",
     )
     timeout: float = Field(
-        default=120.0,
+        default=300.0,
         ge=1.0,
         le=600.0,
         description="Request timeout (seconds)",

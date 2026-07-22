@@ -33,7 +33,7 @@ log = structlog.get_logger()
 class ProcessConfig:
     """Tuning knobs for subprocess execution."""
 
-    timeout: float = 120.0
+    timeout: float = 300.0
     max_retries: int = 3
     retry_delay: float = 1.0
     retry_backoff: float = 2.0
@@ -181,6 +181,8 @@ class BaseAgentAdapter(BaseAgent):
                 args,
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=effective_timeout,
                 cwd=self._config.cwd,
                 env=merged_env,

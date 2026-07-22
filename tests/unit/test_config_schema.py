@@ -20,7 +20,7 @@ class TestAgentConfig:
         cfg = AgentConfig()
         assert cfg.model == "claude-sonnet-5-20260514"
         assert cfg.api_key_env == "ANTHROPIC_API_KEY"
-        assert cfg.timeout == 120.0
+        assert cfg.timeout == 300.0
 
     def test_timeout_bounds(self) -> None:
         with pytest.raises(ValueError):
