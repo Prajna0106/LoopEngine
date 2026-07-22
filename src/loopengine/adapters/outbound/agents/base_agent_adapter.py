@@ -7,6 +7,7 @@ define the CLI command and argument formatting.
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -168,6 +169,12 @@ class BaseAgentAdapter(BaseAgent):
         )
 
         merged_env = {**base_env(), **self._config.env}
+
+        resolved = args[0] if args else ""
+        if resolved:
+            found = shutil.which(resolved, path=merged_env.get("PATH"))
+            if found:
+                args = [found, *args[1:]]
 
         try:
             result = subprocess.run(  # noqa: S603
