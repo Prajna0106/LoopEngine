@@ -5,7 +5,7 @@ Thank you for considering contributing to LoopEngine!
 ## Development Setup
 
 ```bash
-git clone https://github.com/your-org/loopengine.git
+git clone https://github.com/Prajna0106/LoopEngine.git
 cd loopengine
 
 # Create virtual environment and install dependencies

@@ -9,7 +9,7 @@
 ## Setup
 
 ```bash
-git clone https://github.com/your-org/loopengine.git
+git clone https://github.com/Prajna0106/LoopEngine.git
 cd loopengine
 
 # Create venv and install all dependencies (including dev)

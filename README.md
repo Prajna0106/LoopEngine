@@ -1,10 +1,10 @@
 # LoopEngine
 
-[![CI](https://github.com/your-org/loopengine/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/loopengine/actions/workflows/ci.yml)
+[![CI](https://github.com/Prajna0106/LoopEngine/actions/workflows/ci.yml/badge.svg)](https://github.com/Prajna0106/LoopEngine/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/loopengine.svg)](https://pypi.org/project/loopengine/)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![codecov](https://codecov.io/gh/your-org/loopengine/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/loopengine)
+[![codecov](https://codecov.io/gh/Prajna0106/LoopEngine/branch/main/graph/badge.svg)](https://codecov.io/gh/Prajna0106/LoopEngine)
 
 Engineering orchestration framework for AI coding agents.
 
@@ -150,7 +150,7 @@ See [docs/agent_integration.md](docs/agent_integration.md) for the full guide.
 
 ```bash
 # Clone and set up
-git clone https://github.com/your-org/loopengine.git
+git clone https://github.com/Prajna0106/LoopEngine.git
 cd loopengine
 uv venv
 uv sync --all-extras
