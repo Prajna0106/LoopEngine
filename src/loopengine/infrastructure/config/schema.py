@@ -43,7 +43,7 @@ class LogLevel(StrEnum):
 class AgentConfig(BaseModel):
     """Configuration for a single agent backend."""
 
-    model: str = Field(default="claude-sonnet-4-20250514", description="Model identifier")
+    model: str = Field(default="claude-sonnet-4-20260514", description="Model identifier")
     api_key_env: str = Field(
         default="ANTHROPIC_API_KEY",
         description="Env var name holding the API key",
@@ -124,7 +124,7 @@ class EngineConfig(BaseModel):
 
 DEFAULT_AGENTS: dict[str, dict[str, Any]] = {
     "claude": {
-        "model": "claude-sonnet-4-20250514",
+        "model": "claude-sonnet-4-20260514",
         "api_key_env": "ANTHROPIC_API_KEY",
     },
     "openai": {
