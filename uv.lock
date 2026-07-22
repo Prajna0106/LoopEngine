@@ -305,7 +305,7 @@ wheels = [
 ]
 
 [[package]]
-name = "loopengine"
+name = "loop-engine"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -319,16 +319,7 @@ dependencies = [
 
 [package.optional-dependencies]
 all = [
-    { name = "coverage" },
-    { name = "fastapi" },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "pytest-cov" },
-    { name = "ruff" },
-    { name = "types-pyyaml" },
-    { name = "uvicorn", extra = ["standard"] },
+    { name = "loopengine", extra = ["dev"] },
 ]
 api = [
     { name = "fastapi" },
@@ -367,6 +358,21 @@ requires-dist = [
     { name = "uvicorn", extras = ["standard"], marker = "extra == 'api'", specifier = ">=0.29,<1" },
 ]
 provides-extras = ["api", "dev", "all"]
+
+[[package]]
+name = "loopengine"
+version = "1.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/44/54c44433f1f0630cd19ae6dacbe91adeb9eee31d6564e94a8b7395838f7e/loopengine-1.1.0.tar.gz", hash = "sha256:400f0a2262352796bb576300112200b1ca7f3ba60681db03cbb058237f73fe30", size = 8166, upload-time = "2026-03-02T06:02:15.13Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/88/b12b05f768d05f4da79ec1f00b87309f4ca305592d5ea1f4ca9ae20e94cb/loopengine-1.1.0-py3-none-any.whl", hash = "sha256:ee08a52d290200cd58330af686f6c5afddd485a31592806c05fddb09f49ce399", size = 8806, upload-time = "2026-03-02T06:02:14.003Z" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
 
 [[package]]
 name = "markdown-it-py"

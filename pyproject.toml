@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "loopengine"
+name = "loop-engine"
 version = "0.1.0"
 description = "Engineering orchestration framework for AI coding agents"
 readme = "README.md"

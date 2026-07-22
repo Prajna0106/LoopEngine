@@ -17,10 +17,10 @@ iterative improvement.
 
 ```bash
 # Install
-pip install loopengine
+pip install loop-engine
 
 # Or with uv
-uv pip install loopengine
+uv pip install loop-engine
 
 # Initialise a project
 loop init
