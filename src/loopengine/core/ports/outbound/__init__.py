@@ -7,9 +7,25 @@ on them.
 
 from loopengine.core.ports.outbound.agent_port import AgentResponse, BaseAgent
 from loopengine.core.ports.outbound.executor_port import ExecutionResult, Executor
-from loopengine.core.ports.outbound.logger_port import Logger
-from loopengine.core.ports.outbound.memory_store_port import MemoryStore
-from loopengine.core.ports.outbound.metrics_port import MetricsCollector
+from loopengine.core.ports.outbound.logger_port import (
+    ErrorReporter,
+    LogContext,
+    Logger,
+    Span,
+    Tracer,
+)
+from loopengine.core.ports.outbound.memory_store_port import (
+    ExecutionHistory,
+    MemoryStore,
+    ProjectMetaStore,
+    ReflectionStore,
+    ReviewStore,
+    StoredExecution,
+    StoredProjectMeta,
+    StoredReflection,
+    StoredReview,
+)
+from loopengine.core.ports.outbound.metrics_port import MetricPoint, MetricsCollector
 from loopengine.core.ports.outbound.planner_port import (
     Planner,
     PlanPhase,
@@ -53,10 +69,14 @@ __all__ = [
     "AgentResponse",
     "BaseAgent",
     "BasePlugin",
+    "ErrorReporter",
+    "ExecutionHistory",
     "ExecutionResult",
     "Executor",
+    "LogContext",
     "Logger",
     "MemoryStore",
+    "MetricPoint",
     "MetricsCollector",
     "PlanPhase",
     "PlanResult",
@@ -66,6 +86,7 @@ __all__ = [
     "PluginMetadata",
     "PluginRegistry",
     "PluginState",
+    "ProjectMetaStore",
     "PromptProvider",
     "PromptRegistry",
     "PromptTemplate",
@@ -73,13 +94,21 @@ __all__ = [
     "ReflectionDecision",
     "ReflectionEngine",
     "ReflectionResult",
+    "ReflectionStore",
     "ReviewComment",
     "ReviewResult",
+    "ReviewStore",
     "ReviewVerdict",
     "Reviewer",
     "Severity",
+    "Span",
     "StepComplexity",
     "StepPriority",
+    "StoredExecution",
+    "StoredProjectMeta",
+    "StoredReflection",
+    "StoredReview",
+    "Tracer",
     "ValidationIssue",
     "ValidationResult",
     "Validator",

@@ -1,8 +1,4 @@
-"""In-memory persistence adapter (testing).
-
-Provides in-memory implementations of all memory store repositories.
-Suitable for unit tests and development.
-"""
+"""In-memory stub for the memory store port."""
 
 from __future__ import annotations
 
@@ -19,8 +15,8 @@ from loopengine.core.ports.outbound.memory_store_port import (
 )
 
 
-class InMemoryStore(MemoryStore):
-    """In-memory key-value store."""
+class StubMemoryStore(MemoryStore):
+    """Simple in-memory KV store."""
 
     def __init__(self) -> None:
         self._data: dict[str, dict] = {}
@@ -48,8 +44,8 @@ class InMemoryStore(MemoryStore):
         return key in self._data
 
 
-class InMemoryExecutionHistory(ExecutionHistory):
-    """In-memory execution history store."""
+class StubExecutionHistory(ExecutionHistory):
+    """In-memory execution history for testing."""
 
     def __init__(self) -> None:
         self._records: dict[str, StoredExecution] = {}
@@ -67,16 +63,14 @@ class InMemoryExecutionHistory(ExecutionHistory):
         return self._records.pop(workflow_id, None) is not None
 
 
-class InMemoryReflectionStore(ReflectionStore):
-    """In-memory reflection store."""
+class StubReflectionStore(ReflectionStore):
+    """In-memory reflection store for testing."""
 
     def __init__(self) -> None:
         self._records: dict[str, list[StoredReflection]] = {}
 
     def save(self, reflection: StoredReflection) -> None:
-        exec_list = self._records.setdefault(reflection.execution_id, [])
-        exec_list.append(reflection)
-        exec_list.sort(key=lambda r: r.iteration)
+        self._records.setdefault(reflection.execution_id, []).append(reflection)
 
     def list_for_execution(self, execution_id: str) -> list[StoredReflection]:
         return list(self._records.get(execution_id, []))
@@ -85,8 +79,8 @@ class InMemoryReflectionStore(ReflectionStore):
         return len(self._records.pop(execution_id, []))
 
 
-class InMemoryReviewStore(ReviewStore):
-    """In-memory review store."""
+class StubReviewStore(ReviewStore):
+    """In-memory review store for testing."""
 
     def __init__(self) -> None:
         self._records: dict[str, list[StoredReview]] = {}
@@ -101,8 +95,8 @@ class InMemoryReviewStore(ReviewStore):
         return len(self._records.pop(execution_id, []))
 
 
-class InMemoryProjectMetaStore(ProjectMetaStore):
-    """In-memory project metadata store."""
+class StubProjectMetaStore(ProjectMetaStore):
+    """In-memory project metadata store for testing."""
 
     def __init__(self) -> None:
         self._records: dict[str, StoredProjectMeta] = {}

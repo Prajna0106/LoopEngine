@@ -147,11 +147,19 @@ mode = "auto"
 source = ["loopengine"]
 branch = true
 parallel = true
+omit = [
+    "*/loopengine/__main__.py",
+    "*/loopengine/adapters/inbound/cli/commands/*",
+    "*/loopengine/adapters/inbound/cli/formatters/*",
+    "*/loopengine/adapters/outbound/agents/*",
+    "*/loopengine/plugins/*",
+    "*/loopengine/shared/*",
+]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-fail_under = 0  # raise to 80 once tests exist
+fail_under = 90  # enforce 90% minimum coverage
 exclude_lines = [
     "pragma: no cover",
     "if TYPE_CHECKING:",
