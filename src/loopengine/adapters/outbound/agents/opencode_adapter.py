@@ -39,7 +39,7 @@ class OpenCodeAdapter(BaseAgentAdapter):
 
     @property
     def command(self) -> list[str]:
-        return ["opencode", "run", "--non-interactive"]
+        return ["opencode", "run"]
 
     def build_args(
         self,
@@ -48,6 +48,7 @@ class OpenCodeAdapter(BaseAgentAdapter):
         context: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> list[str]:
         args = [*self.command]
+        args.append("--auto")
         if self._model and self._model != "default":
             args.extend(["--model", self._model])
         args.append(prompt)
