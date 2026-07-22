@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Annotated
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from typing import Any
 
 import structlog
 import typer
@@ -105,6 +106,7 @@ def doctor(ctx: typer.Context) -> None:
 @app.command()
 def plan(
     ctx: typer.Context,
+    goal: Annotated[str, typer.Argument(help="Workflow goal")] = "",
     config: Annotated[str | None, typer.Option("--config", "-c", help="Config file")] = None,
 ) -> None:
     """Plan a workflow without executing."""
@@ -114,6 +116,7 @@ def plan(
     _run_command(
         ctx,
         lambda orch: plan_command(
+            goal,
             config,
             orchestrator=orch,
             json_output=json,
@@ -124,6 +127,7 @@ def plan(
 @app.command(name="run")
 def run_cmd(
     ctx: typer.Context,
+    goal: Annotated[str, typer.Argument(help="Workflow goal")] = "",
     config: Annotated[str | None, typer.Option("--config", "-c", help="Config file")] = None,
     dry_run: Annotated[bool, typer.Option("--dry-run", help="Plan only")] = False,
 ) -> None:
@@ -134,6 +138,7 @@ def run_cmd(
     _run_command(
         ctx,
         lambda orch: run_command(
+            goal,
             config,
             dry_run=dry_run,
             orchestrator=orch,
@@ -228,8 +233,144 @@ def create_app(*, settings: Settings | None = None) -> typer.Typer:
     if settings is None:
         settings = Settings()
 
-    _container = Container(settings)
+    container = Container(settings)
+
+    # Wire the orchestrator with all dependencies
+    _wire_orchestrator(container)
+
+    _container = container
     return app
+
+
+def _wire_orchestrator(container: Container) -> None:
+    """Wire all components into the orchestrator."""
+    from loopengine.adapters.inbound.orchestrator import Orchestrator
+    from loopengine.core.services.execution_engine import ExecutionEngine
+    from loopengine.core.services.planner import PlannerService
+    from loopengine.core.services.reflection_service import ReflectionService
+    from loopengine.infrastructure.config.loader import load_config
+
+    # Load config
+    config = load_config()
+
+    # Create services
+    planner = PlannerService()
+    reflection = ReflectionService()
+
+    # Create agent adapter based on config
+    agent = _create_agent(config)
+    from loopengine.adapters.outbound.agents.agent_executor import AgentExecutor
+
+    executor = AgentExecutor(agent)
+    engine = ExecutionEngine(executor)
+
+    # Create validators
+    validators = _create_validators(config)
+
+    # Create reviewers
+    reviewers = _create_reviewers()
+
+    # Create and register orchestrator
+    orchestrator = Orchestrator(
+        planner=planner,
+        executor=executor,
+        execution_engine=engine,
+        reflection=reflection,
+        config=config,
+        validators=validators,
+        reviewers=reviewers,
+    )
+    container.set_orchestrator(orchestrator)
+
+
+def _create_agent(config: Any) -> Any:
+    """Create the appropriate agent adapter from config."""
+    from loopengine.adapters.outbound.agents.base_agent_adapter import ProcessConfig
+
+    default_agent = config.engine.default_agent
+
+    if default_agent == "claude":
+        from loopengine.adapters.outbound.agents.claude_adapter import ClaudeAdapter
+
+        agent_cfg = config.get_agent("claude")
+        return ClaudeAdapter(
+            model=agent_cfg.model,
+            config=ProcessConfig(timeout=agent_cfg.timeout),
+        )
+    elif default_agent == "codex":
+        from loopengine.adapters.outbound.agents.codex_adapter import CodexAdapter
+
+        return CodexAdapter()
+    elif default_agent == "opencode":
+        from loopengine.adapters.outbound.agents.opencode_adapter import OpenCodeAdapter
+
+        return OpenCodeAdapter()
+    else:
+        from loopengine.adapters.outbound.agents.generic_cli_adapter import GenericCLIAdapter
+
+        return GenericCLIAdapter(command=[default_agent])
+
+
+def _create_validators(config: Any) -> list[Any]:
+    """Create validator instances based on config."""
+    validators: list[Any] = []
+    validation_config = config.validation
+
+    # Available validator registry
+    registry: dict[str, type[Any]] = {}
+
+    try:
+        from loopengine.adapters.outbound.validation.python_validator import PythonValidator
+
+        registry["ruff"] = PythonValidator
+    except ImportError:
+        pass
+
+    try:
+        from loopengine.adapters.outbound.validation.pytest_validator import PytestValidator
+
+        registry["pytest"] = PytestValidator
+    except ImportError:
+        pass
+
+    for tool_name in validation_config.linters + validation_config.type_checkers:
+        if tool_name in registry:
+            validators.append(registry[tool_name]())
+
+    if validation_config.test_runner in registry:
+        validators.append(registry[validation_config.test_runner]())
+
+    return validators
+
+
+def _create_reviewers() -> list[Any]:
+    """Create reviewer instances."""
+    reviewers: list[Any] = []
+
+    try:
+        from loopengine.adapters.outbound.review.architecture_reviewer import (
+            ArchitectureReviewer,
+        )
+
+        reviewers.append(ArchitectureReviewer())
+    except ImportError:
+        pass
+
+    try:
+        from loopengine.adapters.outbound.review.security_reviewer import SecurityReviewer
+
+        reviewers.append(SecurityReviewer())
+    except ImportError:
+        pass
+
+    try:
+        from loopengine.adapters.outbound.review.testing_reviewer import TestingReviewer
+
+        reviewers.append(TestingReviewer())
+    except ImportError:
+        pass
+
+    return reviewers
 
 
 def bootstrap() -> None:

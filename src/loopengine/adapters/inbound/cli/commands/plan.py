@@ -13,13 +13,15 @@ if TYPE_CHECKING:
 
 
 def plan_command(
+    goal: Annotated[str, typer.Argument(help="Workflow goal")] = "",
     config: Annotated[str | None, typer.Option("--config", "-c", help="Config file path")] = None,
     *,
     orchestrator: OrchestratorPort,
     json_output: bool = False,
 ) -> None:
     """Plan a workflow without executing it."""
-    result = orchestrator.plan(config)
+    effective_goal = goal if goal else None
+    result = orchestrator.plan(config, goal=effective_goal)
 
     if json_output:
         from loopengine.adapters.inbound.cli.formatters import json_formatter

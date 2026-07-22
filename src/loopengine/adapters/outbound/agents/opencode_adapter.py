@@ -11,7 +11,6 @@ from loopengine.adapters.outbound.agents.base_agent_adapter import (
     BaseAgentAdapter,
     ProcessConfig,
 )
-from loopengine.core.ports.outbound.agent_port import AgentResponse
 
 
 class OpenCodeAdapter(BaseAgentAdapter):
@@ -32,16 +31,11 @@ class OpenCodeAdapter(BaseAgentAdapter):
         model: str = "",
         config: ProcessConfig | None = None,
     ) -> None:
-        super().__init__(config=config)
-        self._model = model or "default"
+        super().__init__(model=model or "default", config=config)
 
     @property
     def name(self) -> str:
         return self._NAME
-
-    @property
-    def model(self) -> str:
-        return self._model
 
     @property
     def command(self) -> list[str]:
@@ -58,10 +52,3 @@ class OpenCodeAdapter(BaseAgentAdapter):
             args.extend(["--model", self._model])
         args.append(prompt)
         return args
-
-    def parse_response(self, stdout: str, stderr: str) -> AgentResponse:
-        return AgentResponse(
-            content=stdout.strip(),
-            model=self._model,
-            metadata={"agent": self._NAME, "stderr": stderr.strip()},
-        )

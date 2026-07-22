@@ -7,7 +7,6 @@ logging.  Concrete validators override ``command``, ``build_args``, and
 
 from __future__ import annotations
 
-import shutil
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -15,6 +14,7 @@ from typing import Any
 
 import structlog
 
+from loopengine.adapters.outbound._subprocess_utils import base_env, is_command_available
 from loopengine.core.ports.outbound.validator_port import (
     Severity,
     ValidationIssue,
@@ -85,8 +85,7 @@ class BaseValidator(Validator):
 
     def is_available(self) -> bool:
         """Check whether the CLI binary exists on PATH."""
-        cmd = self.command[0] if self.command else ""
-        return shutil.which(cmd) is not None
+        return is_command_available(self.command)
 
     # ── Core invocation ───────────────────────────────────────────────
 
@@ -118,7 +117,7 @@ class BaseValidator(Validator):
             paths_count=len(paths),
         )
 
-        merged_env = {**_base_env(), **self._config.env}
+        merged_env = {**base_env(), **self._config.env}
 
         start = time.monotonic()
         try:
@@ -180,13 +179,3 @@ class BaseValidator(Validator):
             issues=issues,
             duration_ms=elapsed_ms,
         )
-
-
-# ── Helpers ────────────────────────────────────────────────────────────
-
-
-def _base_env() -> dict[str, str]:
-    """Return a minimal env dict (inherits current env)."""
-    import os
-
-    return dict(os.environ)

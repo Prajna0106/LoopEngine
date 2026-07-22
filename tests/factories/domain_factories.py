@@ -49,7 +49,6 @@ def _uid() -> str:
 def plan_step(
     *,
     task_id: str | None = None,
-    name: str | None = None,
     description: str = "Test step",
     dependencies: list[str] | None = None,
     priority: StepPriority = StepPriority.MEDIUM,
@@ -58,7 +57,6 @@ def plan_step(
 ) -> PlanStep:
     return PlanStep(
         id=task_id or f"step-{_uid()}",
-        name=name or f"Step {_uid()}",
         description=description,
         dependencies=dependencies or [],
         priority=priority,

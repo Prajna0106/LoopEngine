@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from loopengine.adapters.outbound._subprocess_utils import combine_output
 from loopengine.adapters.outbound.validation.base_validator import BaseValidator
 from loopengine.core.ports.outbound.validator_port import Severity, ValidationIssue
 
@@ -45,7 +46,7 @@ class MavenValidator(BaseValidator):
         returncode: int,
     ) -> tuple[bool, list[ValidationIssue]]:
         issues: list[ValidationIssue] = []
-        combined = stdout + "\n" + stderr
+        combined = combine_output(stdout, stderr)
 
         # Parse compilation errors: "[ERROR] /path/File.java:[line,col]"
         for m in re.finditer(

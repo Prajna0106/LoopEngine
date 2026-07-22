@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 
 def run_command(
+    goal: Annotated[str, typer.Argument(help="Workflow goal")] = "",
     config: Annotated[str | None, typer.Option("--config", "-c", help="Config file path")] = None,
     dry_run: Annotated[bool, typer.Option("--dry-run", help="Plan only, do not execute")] = False,
     *,
@@ -20,7 +21,8 @@ def run_command(
     json_output: bool = False,
 ) -> None:
     """Execute a workflow."""
-    result = orchestrator.run(config, dry_run=dry_run)
+    effective_goal = goal if goal else None
+    result = orchestrator.run(config, dry_run=dry_run, goal=effective_goal)
 
     if json_output:
         from loopengine.adapters.inbound.cli.formatters import json_formatter

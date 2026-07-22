@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from loopengine.core.domain.exceptions.config_exceptions import ConfigLoadError
 from loopengine.infrastructure.config.loader import (
-    ConfigLoadError,
     _apply_env_overrides,
     _deep_merge,
     _load_yaml,

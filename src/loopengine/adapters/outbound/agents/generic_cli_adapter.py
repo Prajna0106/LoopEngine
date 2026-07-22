@@ -12,7 +12,6 @@ from loopengine.adapters.outbound.agents.base_agent_adapter import (
     BaseAgentAdapter,
     ProcessConfig,
 )
-from loopengine.core.ports.outbound.agent_port import AgentResponse
 
 
 class GenericCLIAdapter(BaseAgentAdapter):
@@ -36,18 +35,13 @@ class GenericCLIAdapter(BaseAgentAdapter):
         model: str = "unknown",
         config: ProcessConfig | None = None,
     ) -> None:
-        super().__init__(config=config)
+        super().__init__(model=model, config=config)
         self._name = name
         self._command = command or [name]
-        self._model = model
 
     @property
     def name(self) -> str:
         return self._name
-
-    @property
-    def model(self) -> str:
-        return self._model
 
     @property
     def command(self) -> list[str]:
@@ -60,10 +54,3 @@ class GenericCLIAdapter(BaseAgentAdapter):
         context: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> list[str]:
         return [*self._command, prompt]
-
-    def parse_response(self, stdout: str, stderr: str) -> AgentResponse:
-        return AgentResponse(
-            content=stdout.strip(),
-            model=self._model,
-            metadata={"agent": self._name, "stderr": stderr.strip()},
-        )

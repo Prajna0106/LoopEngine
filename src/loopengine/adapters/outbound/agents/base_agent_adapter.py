@@ -14,6 +14,7 @@ from typing import Any
 
 import structlog
 
+from loopengine.adapters.outbound._subprocess_utils import base_env, is_command_available
 from loopengine.core.domain.exceptions.agent_exceptions import (
     AgentError,
     AgentRefusedError,
@@ -52,10 +53,24 @@ class BaseAgentAdapter(BaseAgent):
     * ``is_available`` — check whether the CLI is installed / configured.
     """
 
-    def __init__(self, *, config: ProcessConfig | None = None) -> None:
+    def __init__(self, *, model: str = "", config: ProcessConfig | None = None) -> None:
         self._config = config or ProcessConfig()
+        self._model = model
 
     # ── Subclass hooks ────────────────────────────────────────────────
+
+    @property
+    def name(self) -> str:
+        """Human-readable agent identifier.
+
+        Override in subclasses.
+        """
+        raise NotImplementedError
+
+    @property
+    def model(self) -> str:
+        """Model identifier (e.g. 'claude-sonnet-4-20250514')."""
+        return self._model
 
     @property
     def command(self) -> list[str]:
@@ -78,12 +93,16 @@ class BaseAgentAdapter(BaseAgent):
         """
         return [*self.command, prompt]
 
-    def parse_response(self, stdout: str, stderr: str) -> AgentResponse:  # noqa: ARG002
+    def parse_response(self, stdout: str, stderr: str) -> AgentResponse:
         """Parse raw subprocess output into an ``AgentResponse``.
 
         Override to extract structured data (model name, usage, etc.).
         """
-        return AgentResponse(content=stdout.strip())
+        return AgentResponse(
+            content=stdout.strip(),
+            model=self._model,
+            metadata={"agent": self.name, "stderr": stderr.strip()},
+        )
 
     def format_timeout_message(self, timeout: float) -> str:
         """Human-readable timeout error message."""
@@ -148,7 +167,7 @@ class BaseAgentAdapter(BaseAgent):
             timeout=effective_timeout,
         )
 
-        merged_env = {**_base_env(), **self._config.env}
+        merged_env = {**base_env(), **self._config.env}
 
         try:
             result = subprocess.run(  # noqa: S603
@@ -199,7 +218,7 @@ class BaseAgentAdapter(BaseAgent):
         """
         args = self.build_args(prompt, context=context)
         effective_timeout = timeout or self._config.timeout
-        merged_env = {**_base_env(), **self._config.env}
+        merged_env = {**base_env(), **self._config.env}
 
         log.debug(
             "agent_invoke_streaming",
@@ -234,17 +253,7 @@ class BaseAgentAdapter(BaseAgent):
 
     def is_available(self) -> bool:
         """Check whether the CLI binary exists on PATH."""
-        import shutil
-
-        cmd = self.command[0] if self.command else ""
-        return shutil.which(cmd) is not None
+        return is_command_available(self.command)
 
 
 # ── Helpers ────────────────────────────────────────────────────────────
-
-
-def _base_env() -> dict[str, str]:
-    """Return a minimal env dict (inherits current env)."""
-    import os
-
-    return dict(os.environ)

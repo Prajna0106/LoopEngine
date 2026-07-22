@@ -85,11 +85,17 @@ class OrchestratorPort(ABC):
         """Run health checks and return results."""
 
     @abstractmethod
-    def plan(self, config_path: str | None = None) -> PlanResult:
-        """Plan a workflow from configuration."""
+    def plan(self, config_path: str | None = None, *, goal: str | None = None) -> PlanResult:
+        """Plan a workflow from configuration or goal."""
 
     @abstractmethod
-    def run(self, config_path: str | None = None, *, dry_run: bool = False) -> RunResult:
+    def run(
+        self,
+        config_path: str | None = None,
+        *,
+        dry_run: bool = False,
+        goal: str | None = None,
+    ) -> RunResult:
         """Execute a workflow."""
 
     @abstractmethod

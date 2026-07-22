@@ -1,8 +1,10 @@
 """Configuration package."""
 
-from loopengine.infrastructure.config.loader import (
+from loopengine.core.domain.exceptions.config_exceptions import (
     ConfigLoadError,
     ConfigValidationError,
+)
+from loopengine.infrastructure.config.loader import (
     find_config_file,
     load_config,
     load_config_file,

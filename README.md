@@ -1,5 +1,11 @@
 # LoopEngine
 
+[![CI](https://github.com/your-org/loopengine/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/loopengine/actions/workflows/ci.yml)
+[![PyPI version](https://badge.fury.io/py/loopengine.svg)](https://pypi.org/project/loopengine/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/your-org/loopengine/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/loopengine)
+
 Engineering orchestration framework for AI coding agents.
 
 LoopEngine is **not** an AI coding agent. It is a production-grade orchestration
@@ -161,6 +167,7 @@ make test
 
 See [docs/development.md](docs/development.md) for the full development guide.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [SECURITY.md](SECURITY.md) for security policy.
 
 ## Documentation
 
@@ -172,6 +179,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 - [API Reference](docs/api_reference.md) -- Python API
 - [Development Guide](docs/development.md) -- setup and workflow
 - [Roadmap](docs/roadmap.md) -- planned features
+- [Technical Debt](docs/technical_debt.md) -- known issues and improvements
+- [Changelog](CHANGELOG.md) -- version history
+- [Security Policy](SECURITY.md) -- vulnerability reporting
+- [Code of Conduct](CODE_OF_CONDUCT.md) -- community guidelines
 
 ## License
 
