@@ -60,9 +60,9 @@ class AgentConfig(BaseModel):
     @field_validator("model")
     @classmethod
     def model_not_empty(cls, v: str) -> str:
-        if not v.strip():
+        if v and not v.strip():
             raise ValueError("model must not be blank")
-        return v.strip()
+        return v.strip() if v else v
 
 
 class ValidationConfig(BaseModel):
