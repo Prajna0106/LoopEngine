@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "loopeng"
-version = "0.1.0"
+version = "0.1.1"
 description = "Engineering orchestration framework for AI coding agents"
 readme = "README.md"
 license = "MIT"
@@ -50,7 +50,7 @@ all = [
 ]
 
 [project.scripts]
-loopengine = "loopengine.adapters.inbound.cli.app:main"
+loop = "loopengine.adapters.inbound.cli.app:bootstrap"
 
 # Entry points — uncomment when implementations exist
 # [project.entry-points."loopengine.plugins"]
